@@ -42,13 +42,13 @@ router
 //---------------------------------Request Targetting specific article---------------------------------
 
 // middleware for finding article by Id
-async function findById(req, res, next) {
+async function findArticleById(req, res, next) {
   let requestedArticle;
   try {
     requestedArticle = await Article.findById(req.params.id);
 
     if (requestedArticle == null) {
-      res.status(404).json({ message: "No such article found" });
+      return res.status(404).json({ message: "No such article found" });
     }
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -60,7 +60,7 @@ async function findById(req, res, next) {
 
 router
   .route("/:id")
-  .all(findById)
+  .all(findArticleById)
 
   .get(async (req, res) => {
     res.status(200).json(res.requestedArticle);
